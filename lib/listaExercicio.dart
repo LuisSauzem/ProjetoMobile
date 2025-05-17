@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Vários Textos no Container',
-    home: MyHomePage(),
+    home: Teste(),
   ));
 }
 
-class MyHomePage extends StatelessWidget {
+class Teste extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    List<String> ListaDeTreinos = ['Treino A', 'Treino B','Treino C', 'Treino D', 'Treino E'];
+    List<String> ListaDeExercicios = ['Puxada Alta', 'Remada Supinada','Puxada Pronada'];
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Exercícios'),
       ),
       body: ListView.builder(
-        itemCount: ListaDeTreinos.length,
+        itemCount: ListaDeExercicios.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -30,7 +30,7 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  ListaDeTreinos[index],
+                  ListaDeExercicios[index],
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
