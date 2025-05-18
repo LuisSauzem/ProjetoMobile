@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    title: 'Vários Textos no Container',
+    title: 'Gym',
     home: MyHomePage(),
   ));
 }
