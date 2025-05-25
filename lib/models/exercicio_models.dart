@@ -1,28 +1,32 @@
-class ExercicioModel{
+class ExercicioModel {
   String id;
   String nome;
-  String treino;
   String comoFazer;
+  int intervalo;
+  int peso;
 
   ExercicioModel({
     required this.id,
     required this.nome,
-    required this.treino,
     required this.comoFazer,
+    required this.intervalo,
+    required this.peso,
   });
 
-  ExercicioModel.fromMap(Map<String, dynamic> map):
-        id = map["id"],
+  ExercicioModel.fromMap(Map<String, dynamic> map)
+      : id = map["id"],
         nome = map["nome"],
-        treino = map["treino"],
-        comoFazer = map["comoFazer"];
+        comoFazer = map["comoFazer"],
+        intervalo = map["intervalo"],
+        peso = map["peso"];
 
-  Map<String, dynamic> toMap(){
-    return{
+  Map<String, dynamic> toMap() {
+    return {
       "id": id,
       "nome": nome,
-      "treino": treino,
       "comoFazer": comoFazer,
+      "intervalo": intervalo,
+      "peso": peso,
     };
   }
 }

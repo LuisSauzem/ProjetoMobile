@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import '../models/treino_models.dart';
+import 'listaExercicio.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Gym',
+    theme: ThemeData(
+      primarySwatch: Colors.deepPurple,
+    ),
     home: MyHomePage(),
   ));
 }
@@ -10,41 +15,54 @@ void main() {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<String> ListaDeTreinos = ['Treino A', 'Treino B','Treino C', 'Treino D', 'Treino E'];
+    List<Treino> listadetreinos = Treino.lista();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Exercícios'),
+        title: Text('Lista de Treinos'),
+        backgroundColor: Colors.deepPurple,
       ),
-      body: ListView.builder(
-        itemCount: ListaDeTreinos.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  ListaDeTreinos[index],
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ListView.builder(
+          itemCount: listadetreinos.length,
+          itemBuilder: (context, index) {
+            final treino = listadetreinos[index];
+            return Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.all(16),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.deepPurple,
+                  child: Icon(Icons.directions_run, color: Colors.white),
+                ),
+                title: Text(
+                  treino.nome,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.play_circle_outline_sharp),
-                  onPressed: (){},
+                subtitle: Text(
+                  '${treino.listaExercicio.length} exercícios',
+                  style: TextStyle(fontSize: 14),
                 ),
-              ],
-            ),
-          );
-        },
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ListaExercicio(treino: treino),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
