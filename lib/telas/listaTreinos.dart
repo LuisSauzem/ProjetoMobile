@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/treino_models.dart';
 import 'listaExercicio.dart';
 
-void main() {
-  runApp(MaterialApp(
-    title: 'Gym',
-    theme: ThemeData(
-      primarySwatch: Colors.deepPurple,
-    ),
-    home: MyHomePage(),
-  ));
-}
 
-class MyHomePage extends StatelessWidget {
+
+class listaTreinos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Treino> listadetreinos = Treino.lista();
