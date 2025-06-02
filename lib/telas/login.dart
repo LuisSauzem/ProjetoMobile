@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetomobile/telas/listaTreinos.dart';
+import 'package:projetomobile/telas/tela_home.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -22,8 +23,8 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 25.0),
         width: double.infinity,
         child: ElevatedButton(onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => listaTreinos()
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => TelaInicial()
           ));
         },
           style: ElevatedButton.styleFrom(
