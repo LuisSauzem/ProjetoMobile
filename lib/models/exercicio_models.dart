@@ -1,4 +1,5 @@
 class ExercicioModel {
+  int? id;
   String nome;
   String comoFazer;
   String intervalo;
@@ -12,6 +13,7 @@ class ExercicioModel {
   });
 
   ExercicioModel.fromMap(Map<String, dynamic> map):
+       id = map["id"],
        nome = map["nome"],
        comoFazer = map["comoFazer"],
        intervalo = map["intervalo"],
@@ -19,6 +21,7 @@ class ExercicioModel {
 
   Map<String, dynamic> toMap() {
     return {
+      "id": id,
       "nome": nome,
       "comoFazer": comoFazer,
       "intervalo": intervalo,

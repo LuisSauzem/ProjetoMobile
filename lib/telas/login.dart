@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:projetomobile/telas/listaTreinos.dart';
 import 'package:projetomobile/telas/tela_home.dart';
 
-void main() {
+import '../database/appDatabase.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppDatabase().database;
+
   runApp(MaterialApp(
     title: 'Gym',
     theme: ThemeData(

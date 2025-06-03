@@ -78,7 +78,7 @@ class AdicionarExercicios extends StatelessWidget {
             ElevatedButton(
                 onPressed:(){
                   if(_formKey.currentState!.validate()) {
-                    ExercicioModel e = new ExercicioModel(nome: this._nomeController.text,
+                        ExercicioModel e = new ExercicioModel(nome: this._nomeController.text,
                         comoFazer: this._comofazerController.text,
                         intervalo: this._intervaloController.text,
                         peso: this._pesoController.text);

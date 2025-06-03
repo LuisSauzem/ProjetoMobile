@@ -1,6 +1,7 @@
 import 'package:projetomobile/models/exercicio_models.dart';
 
 class Treino {
+  int? id;
   String nome;
   List<ExercicioModel> listaExercicio;
 

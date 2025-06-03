@@ -1,9 +1,23 @@
 
-
 import 'package:projetomobile/models/exercicio_models.dart';
 
-/* class ExercicioDAO{
-  final List<ExercicioModel> _exercicios = List();
-};
+import 'appDatabase.dart';
 
- */
+class ExercicioDao {
+  static const String table = 'exercicio';
+
+  Future<int> insertExercicio(ExercicioModel exercicio) async {
+    final db = await AppDatabase().database;
+    return db.insert(table, exercicio.toMap());
+  }
+
+  Future<ExercicioModel?> getExercicio(String nome) async {
+    final db = await AppDatabase().database;
+    final result = await db.query(
+      table,
+      where: 'nome = ?',
+      whereArgs: [nome],
+    );
+    return result.isNotEmpty ? ExercicioModel.fromMap(result.first) : null;
+  }
+}
