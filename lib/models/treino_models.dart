@@ -2,6 +2,7 @@ import 'package:projetomobile/models/exercicio_models.dart';
 
 class Treino {
   int? id;
+  int? treinoId;
   String nome;
   List<ExercicioModel> listaExercicio;
 
@@ -49,9 +50,17 @@ class Treino {
       nome: 'Flexões',
       comoFazer: 'Mantenha o corpo reto e abaixe até quase tocar o chão com o peito, depois empurre para cima.',
       intervalo: '40',
-      peso: '10', // Peso corporal
+      peso: '10',
     );
-    List<ExercicioModel> Lista2 = [E4, E5, E6];
+    ExercicioModel E7 = ExercicioModel(
+        nome: 'testando',
+        comoFazer: 'testando',
+        intervalo: 'testando',
+        peso: 'testando',
+    );
+
+
+    List<ExercicioModel> Lista2 = [E4, E5, E6, E7];
     Treino T2 = Treino(nome: 'Treino B', listaExercicio: Lista2);
 
     List<Treino> treinos = [T1, T2];

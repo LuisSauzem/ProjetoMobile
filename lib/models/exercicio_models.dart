@@ -12,6 +12,9 @@ class ExercicioModel {
     required this.peso,
   });
 
+
+
+
   ExercicioModel.fromMap(Map<String, dynamic> map):
        id = map["id"],
        nome = map["nome"],

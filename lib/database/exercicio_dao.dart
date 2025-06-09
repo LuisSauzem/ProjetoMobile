@@ -4,6 +4,7 @@ import 'package:projetomobile/models/exercicio_models.dart';
 import 'appDatabase.dart';
 
 class ExercicioDao {
+
   static const String table = 'exercicio';
 
   Future<int> insertExercicio(ExercicioModel exercicio) async {

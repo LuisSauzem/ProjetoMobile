@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projetomobile/telas/adicionar_exercicios.dart';
 import 'package:projetomobile/telas/listaTreinos.dart';
+import 'package:projetomobile/telas/listaExerciciosIndividuais.dart';
+
+import '../models/treino_models.dart';
+import 'listaExerciciosIndividuais.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -50,6 +54,31 @@ class TelaInicial extends StatelessWidget {
               ),
               child: const Text(
                 'Criar Exercício',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: () {
+                  final treinos = Treino.lista();
+                  final todosExercicios = treinos.expand((t) => t.listaExercicio).toList();
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ListaExerciciosIndividuais(exercicios: todosExercicios),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                backgroundColor: Colors.deepPurple,
+              ),
+              child: const Text(
+                'Lista de Exercícios',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
