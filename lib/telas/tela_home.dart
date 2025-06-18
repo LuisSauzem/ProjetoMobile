@@ -64,12 +64,12 @@ class TelaInicial extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
-                  final treinos = Treino.lista();
-                  final todosExercicios = treinos.expand((t) => t.listaExercicio).toList();
+                //  final treinos = Treino.lista();
+                //  final todosExercicios = treinos.expand((t) => t.listaExercicio).toList();
 
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ListaExerciciosIndividuais(exercicios: todosExercicios),
+                      builder: (context) => ListaExerciciosIndividuais(),
                     ),
                   );
                 },

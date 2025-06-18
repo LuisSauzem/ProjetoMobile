@@ -13,8 +13,6 @@ class ExercicioModel {
   });
 
 
-
-
   ExercicioModel.fromMap(Map<String, dynamic> map):
        id = map["id"],
        nome = map["nome"],

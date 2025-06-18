@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/models/exercicio_models.dart';
+import 'package:projetomobile/service/exercicio_service.dart';
 
 class AdicionarExercicios extends StatelessWidget {
 
@@ -10,6 +11,7 @@ class AdicionarExercicios extends StatelessWidget {
   final TextEditingController _comofazerController = TextEditingController();
   final TextEditingController _intervaloController = TextEditingController();
   final TextEditingController _pesoController = TextEditingController();
+  final ExercicioService _exercicioService = ExercicioService();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -76,14 +78,14 @@ class AdicionarExercicios extends StatelessWidget {
               style: TextStyle(fontSize: 24),
             ),
             ElevatedButton(
-                onPressed:(){
+                onPressed:() async {
                   if(_formKey.currentState!.validate()) {
                         ExercicioModel e = new ExercicioModel(nome: this._nomeController.text,
                         comoFazer: this._comofazerController.text,
                         intervalo: this._intervaloController.text,
                         peso: this._pesoController.text);
-
-                    Navigator.of(context).pop();
+                      await _exercicioService.addExercicio(e);
+                      Navigator.of(context).pop();
                   }else{
                     debugPrint('formulário inválido!');
                   }
