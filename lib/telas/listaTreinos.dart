@@ -1,60 +1,94 @@
+// lib/telas/lista_treinos.dart
 import 'package:flutter/material.dart';
 import '../models/treino_models.dart';
-import 'listaExercicio.dart';
+import '../service/treino_service.dart';
+import '../database/exercicio_dao.dart';
+import '../models/exercicio_models.dart';
+import 'cadastroTreino.dart';
+import 'exercicios_do_treino.dart';
 
+class ListaTreinos extends StatefulWidget {
+  const ListaTreinos({Key? key}) : super(key: key);
 
+  @override
+  State<ListaTreinos> createState() => _ListaTreinosState();
+}
 
-class listaTreinos extends StatelessWidget {
+class _ListaTreinosState extends State<ListaTreinos> {
+  final _treinoService = TreinoService();
+  final _exercicioDao = ExercicioDao();
+
+  List<TreinoModel> _treinos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarTreinos();
+  }
+
+  Future<void> _carregarTreinos() async {
+    final treinos = await _treinoService.listarTreinos();
+    setState(() => _treinos = treinos);
+  }
+
+  Future<void> _excluirTreino(int id) async {
+    await _treinoService.deletarTreino(id);
+    _carregarTreinos();
+  }
+
+  Future<List<ExercicioModel>> _buscarExercicios(TreinoModel treino) async {
+    List<ExercicioModel> todos = await _exercicioDao.getAllExercicios();
+    return todos.where((e) => treino.exercicios.contains(e.id)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Treino> listadetreinos = Treino.lista();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Lista de Treinos'),
-        backgroundColor: Colors.deepPurple,
+      appBar: AppBar(title: const Text('Meus Treinos')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CadastroTreino()),
+          );
+          _carregarTreinos();
+        },
+        child: const Icon(Icons.add),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: ListView.builder(
-          itemCount: listadetreinos.length,
-          itemBuilder: (context, index) {
-            final treino = listadetreinos[index];
-            return Card(
-              elevation: 4,
-              margin: EdgeInsets.symmetric(vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.deepPurple,
-                  child: Icon(Icons.directions_run, color: Colors.white),
-                ),
-                title: Text(
-                  treino.nome,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+      body: _treinos.isEmpty
+          ? const Center(child: Text('Nenhum treino cadastrado.'))
+          : ListView.builder(
+        itemCount: _treinos.length,
+        itemBuilder: (context, index) {
+          final treino = _treinos[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ExerciciosDoTreino(treino: treino),
                   ),
-                ),
-                subtitle: Text(
-                  '${treino.listaExercicio.length} exercícios',
-                  style: TextStyle(fontSize: 14),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ListaExercicio(treino: treino),
-                    ),
-                  );
+                );
+              },
+              title: Text(treino.nome),
+              subtitle: FutureBuilder<List<ExercicioModel>>(
+                future: _buscarExercicios(treino),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('Carregando exercícios...');
+                  final exercicios = snapshot.data!;
+                  if (exercicios.isEmpty) return const Text('Sem exercícios.');
+                  return Text(exercicios.map((e) => e.nome).join(', '));
                 },
               ),
-            );
-          },
-        ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () => _excluirTreino(treino.id!),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

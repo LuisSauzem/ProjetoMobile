@@ -4,6 +4,7 @@ import 'package:projetomobile/telas/listaTreinos.dart';
 import 'package:projetomobile/telas/listaExerciciosIndividuais.dart';
 
 import '../models/treino_models.dart';
+import 'cadastroTreino.dart';
 import 'listaExerciciosIndividuais.dart';
 
 class TelaInicial extends StatelessWidget {
@@ -25,7 +26,7 @@ class TelaInicial extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => listaTreinos()),
+                  MaterialPageRoute(builder: (context) => ListaTreinos()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -79,6 +80,26 @@ class TelaInicial extends StatelessWidget {
               ),
               child: const Text(
                 'Lista de Exercícios',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CadastroTreino()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                backgroundColor: Colors.deepPurple,
+              ),
+              child: const Text(
+                'Criar Treino',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
