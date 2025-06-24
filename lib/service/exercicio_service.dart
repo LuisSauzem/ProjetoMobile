@@ -14,4 +14,13 @@ class ExercicioService {
   Future<List<ExercicioModel>> getExercicios() async{
     return await _exercicioDao.getAllExercicios();
   }
+
+  Future<void> deleteExercicio(int id) async {
+    await ExercicioDao().delete(id);
+  }
+
+  Future<void> updateExercicio(ExercicioModel exercicio) async {
+    await ExercicioDao().update(exercicio);
+  }
+
 }

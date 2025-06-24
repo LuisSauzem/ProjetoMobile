@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:projetomobile/telas/listaTreinos.dart';
 import 'package:projetomobile/telas/tela_home.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../database/appDatabase.dart';
+import '../models/exercicio_models.dart';
+import 'editar_exercicio.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await deleteDatabase(join(await getDatabasesPath(), 'database.db'));
   await AppDatabase().database;
+
 
   runApp(MaterialApp(
     title: 'Gym',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projetomobile/service/exercicio_service.dart';
 import '../models/exercicio_models.dart';
+import 'editar_exercicio.dart';
 
 class ListaExerciciosIndividuais extends StatefulWidget {
   const ListaExerciciosIndividuais({super.key});
@@ -84,6 +85,29 @@ class _ListaExerciciosIndividuaisState extends State<ListaExerciciosIndividuais>
                           ),
                         ],
                       ),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit, color: Colors.orange),
+                          onPressed: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => EditarExercicio(exercicio: ex,),
+                              ),
+                            );
+                          }
+                          
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () async {
+                            await _exercicioService.deleteExercicio(ex.id!);
+                            _refreshExercicios();
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );

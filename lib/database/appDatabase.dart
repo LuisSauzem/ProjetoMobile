@@ -30,6 +30,13 @@ class AppDatabase {
             peso TEXT
           )
         ''');
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS treinos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT,
+            exercicios TEXT
+          )
+        ''');
       },
     );
   }

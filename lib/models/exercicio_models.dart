@@ -9,7 +9,7 @@ class ExercicioModel {
     required this.nome,
     required this.comoFazer,
     required this.intervalo,
-    required this.peso,
+    required this.peso, int? id,
   });
 
 

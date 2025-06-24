@@ -25,7 +25,25 @@ class ExercicioDao {
   Future<List<ExercicioModel>> getAllExercicios() async {
     final db = await AppDatabase().database;
     final result = await db.query(table);
-    print(result.map((map) => ExercicioModel.fromMap(map)).toList());
     return result.map((map) => ExercicioModel.fromMap(map)).toList();
   }
+
+  Future<void> delete(int id) async {
+    final db = await AppDatabase().database;
+    await db.delete(
+      table,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+  Future<void> update(ExercicioModel exercicio) async {
+    final db = await AppDatabase().database;
+    await db.update(
+      table,
+      exercicio.toMap(),
+      where: 'id = ?',
+      whereArgs: [exercicio.id],
+    );
+  }
+
 }
