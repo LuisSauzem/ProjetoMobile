@@ -21,8 +21,6 @@ class _ListaExerciciosIndividuaisState extends State<ListaExerciciosIndividuais>
   void initState() {
     super.initState();
     _exercicios = _exercicioService.getExercicios();
-    print("Aqui");
-    print(_exercicios);
   }
 
   void _refreshExercicios(){
@@ -91,21 +89,39 @@ class _ListaExerciciosIndividuaisState extends State<ListaExerciciosIndividuais>
                       children: [
                         IconButton(
                           icon: Icon(Icons.edit, color: Colors.orange),
-                          onPressed: (){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => EditarExercicio(exercicio: ex,),
+                            onPressed: () async {
+                              final resultado = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => EditarExercicio(exercicio: ex),
+                                ),
+                              );
+                              if (resultado == true) {
+                              _refreshExercicios(); //
+                              }
+                            },
+
                               ),
-                            );
-                          }
-                          
-                        ),
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () async {
-                            await _exercicioService.deleteExercicio(ex.id!);
-                            _refreshExercicios();
+                            final confirm = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text("Confirmar exclusão"),
+                                content: Text("Deseja realmente excluir o exercício '${ex.nome}'?"),
+                                actions: [
+                                  TextButton(onPressed: () => Navigator.pop(context, false), child: Text("Cancelar")),
+                                  TextButton(onPressed: () => Navigator.pop(context, true), child: Text("Excluir")),
+                                  ],
+                                ),
+                            );
+                              if (confirm ?? false) {
+                                await _exercicioService.deleteExercicio(ex.id!);
+                                  _refreshExercicios();
+                              }
                           },
+
                         ),
                       ],
                     ),

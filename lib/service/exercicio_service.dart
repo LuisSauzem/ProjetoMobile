@@ -20,7 +20,7 @@ class ExercicioService {
   }
 
   Future<void> updateExercicio(ExercicioModel exercicio) async {
-    await ExercicioDao().update(exercicio);
+    await _exercicioDao.updateExercicio(exercicio);
   }
 
 }

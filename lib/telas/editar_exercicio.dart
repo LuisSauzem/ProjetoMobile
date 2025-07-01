@@ -50,7 +50,14 @@ class _EditarExercicioState extends State<EditarExercicio> {
       );
 
       await _service.updateExercicio(atualizado);
-      Navigator.pop(context);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Exercício atualizado com sucesso")),
+        );
+        Navigator.pop(context, true);
+
+      }
     }
   }
 
@@ -89,10 +96,14 @@ class _EditarExercicioState extends State<EditarExercicio> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _salvar,
-                child: Text("Salvar Alterações"),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-              )
+                child: Text("Salvar Alterações",
+                  style: TextStyle(
+                  color: Colors.white,),
+              ),
+              ),
             ],
+
           ),
         ),
       ),

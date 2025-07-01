@@ -36,14 +36,15 @@ class ExercicioDao {
       whereArgs: [id],
     );
   }
-  Future<void> update(ExercicioModel exercicio) async {
+  Future<int> updateExercicio(ExercicioModel exercicio) async {
     final db = await AppDatabase().database;
-    await db.update(
+    return await db.update(
       table,
       exercicio.toMap(),
       where: 'id = ?',
       whereArgs: [exercicio.id],
     );
   }
+
 
 }
