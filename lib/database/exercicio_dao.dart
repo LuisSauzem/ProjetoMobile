@@ -38,6 +38,8 @@ class ExercicioDao {
   }
   Future<int> updateExercicio(ExercicioModel exercicio) async {
     final db = await AppDatabase().database;
+    print('intervalo dentro da dao '+exercicio.intervalo);
+    print('id dentro da dao '+ exercicio.id.toString());
     return await db.update(
       table,
       exercicio.toMap(),

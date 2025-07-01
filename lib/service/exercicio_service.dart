@@ -20,6 +20,7 @@ class ExercicioService {
   }
 
   Future<void> updateExercicio(ExercicioModel exercicio) async {
+    print('id dentro da service '+ exercicio.id.toString());
     await _exercicioDao.updateExercicio(exercicio);
   }
 

@@ -23,7 +23,7 @@ class _EditarExercicioState extends State<EditarExercicio> {
   @override
   void initState() {
     super.initState();
-    print(widget.exercicio.id);
+    print('id do exercicio ' + widget.exercicio.id.toString());
     _nomeController.text = widget.exercicio.nome;
     _comoFazerController.text = widget.exercicio.comoFazer;
     _intervaloController.text = widget.exercicio.intervalo;
@@ -40,6 +40,8 @@ class _EditarExercicioState extends State<EditarExercicio> {
   }
 
   void _salvar() async {
+    print('intervalo '+ _intervaloController.text);
+    print('id '+  widget.exercicio.id.toString());
     if (_formKey.currentState!.validate()) {
       final atualizado = ExercicioModel(
         id: widget.exercicio.id,
