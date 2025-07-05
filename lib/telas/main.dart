@@ -1,58 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:projetomobile/telas/listaTreinos.dart';
-import 'package:projetomobile/telas/tela_home.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:projetomobile/telas/loginScreen.dart';
 
 import '../database/appDatabase.dart';
-import '../models/exercicio_models.dart';
-import 'editar_exercicio.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await deleteDatabase(join(await getDatabasesPath(), 'database.db'));
-  await AppDatabase().database;
+  await AppDatabase().database; // Inicializa o banco de dados
 
-
-  runApp(MaterialApp(
-    title: 'Gym',
-    theme: ThemeData(
-      primarySwatch: Colors.deepPurple,
-    ),
-    home: Login(),
-  ));
+  runApp(const GymProApp());
 }
-class Login extends StatelessWidget {
+
+
+class GymProApp extends StatelessWidget {
+  const GymProApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Tela de Login'),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 25.0),
-        width: double.infinity,
-        child: ElevatedButton(onPressed: (){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => TelaInicial()
-          ));
-        },
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 25.0),
-            shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0)),
-            backgroundColor: Colors.deepPurple,
-          ),
-            child: Text('LOGIN', style: TextStyle(
-              color: Colors.white,
-              letterSpacing: 1.5,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-            ),
+    return MaterialApp(
+      title: 'GymPro',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        colorScheme: ColorScheme.dark(
+          primary: Colors.black,
+          secondary: Colors.orangeAccent,
+          surface: Color(0xFF1A1A1A),
         ),
+        scaffoldBackgroundColor: Color(0xFF121212),
       ),
+      home: LoginScreen(), // Tela inicial agora é o login simplificado
     );
   }
 }
-

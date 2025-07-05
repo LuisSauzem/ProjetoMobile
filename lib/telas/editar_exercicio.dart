@@ -17,13 +17,11 @@ class _EditarExercicioState extends State<EditarExercicio> {
   final _comoFazerController = TextEditingController();
   final _intervaloController = TextEditingController();
   final _pesoController = TextEditingController();
-
   final ExercicioService _service = ExercicioService();
 
   @override
   void initState() {
     super.initState();
-    print('id do exercicio ' + widget.exercicio.id.toString());
     _nomeController.text = widget.exercicio.nome;
     _comoFazerController.text = widget.exercicio.comoFazer;
     _intervaloController.text = widget.exercicio.intervalo;
@@ -40,8 +38,6 @@ class _EditarExercicioState extends State<EditarExercicio> {
   }
 
   void _salvar() async {
-    print('intervalo '+ _intervaloController.text);
-    print('id '+  widget.exercicio.id.toString());
     if (_formKey.currentState!.validate()) {
       final atualizado = ExercicioModel(
         id: widget.exercicio.id,
@@ -55,10 +51,12 @@ class _EditarExercicioState extends State<EditarExercicio> {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Exercício atualizado com sucesso")),
+          SnackBar(
+            content: Text("Exercício atualizado com sucesso!"),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context, true);
-
       }
     }
   }
@@ -66,48 +64,131 @@ class _EditarExercicioState extends State<EditarExercicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Editar Exercício"), backgroundColor: Colors.deepPurple),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nomeController,
-                decoration: InputDecoration(labelText: "Nome"),
-                validator: (value) => value!.isEmpty ? 'Informe o nome' : null,
-              ),
-              TextFormField(
-                controller: _comoFazerController,
-                decoration: InputDecoration(labelText: "Como fazer"),
-                validator: (value) => value!.isEmpty ? 'Informe como fazer' : null,
-              ),
-              TextFormField(
-                controller: _intervaloController,
-                decoration: InputDecoration(labelText: "Intervalo (s)"),
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Informe o intervalo' : null,
-              ),
-              TextFormField(
-                controller: _pesoController,
-                decoration: InputDecoration(labelText: "Peso (kg)"),
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Informe o peso' : null,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _salvar,
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                child: Text("Salvar Alterações",
-                  style: TextStyle(
-                  color: Colors.white,),
-              ),
-              ),
+      backgroundColor: Color(0xFF121212),
+      appBar: AppBar(
+        title: Text('EDITAR EXERCÍCIO',
+            style: TextStyle(
+                fontFamily: 'BebasNeue',
+                fontSize: 24,
+                letterSpacing: 1.5,
+                color: Colors.white)),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.orangeAccent),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF1A1A1A),
+              Color(0xFF121212),
             ],
-
           ),
         ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                _buildExerciseTextField(
+                  controller: _nomeController,
+                  label: "NOME DO EXERCÍCIO",
+                  icon: Icons.fitness_center,
+                  validator: (value) => value?.isEmpty ?? true ? 'Campo obrigatório' : null,
+                ),
+                SizedBox(height: 20),
+                _buildExerciseTextField(
+                  controller: _comoFazerController,
+                  label: "DESCRIÇÃO DO MOVIMENTO",
+                  icon: Icons.description,
+                  validator: (value) => value?.isEmpty ?? true ? 'Campo obrigatório' : null,
+                  maxLines: 3,
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildExerciseTextField(
+                        controller: _intervaloController,
+                        label: "INTERVALO (s)",
+                        icon: Icons.timer,
+                        validator: (value) => value?.isEmpty ?? true ? 'Campo obrigatório' : null,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: _buildExerciseTextField(
+                        controller: _pesoController,
+                        label: "CARGA (kg)",
+                        icon: Icons.scale,
+                        validator: (value) => value?.isEmpty ?? true ? 'Campo obrigatório' : null,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: _salvar,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.orangeAccent,
+                    padding: EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 8,
+                  ),
+                  child: Text(
+                    'SALVAR ALTERAÇÕES',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExerciseTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    required String? Function(String?)? validator,
+    int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      style: TextStyle(color: Colors.white, fontSize: 16),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.white70),
+        prefixIcon: Icon(icon, color: Colors.orangeAccent),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade800),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orangeAccent),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        filled: true,
+        fillColor: Color(0xFF1E1E1E),
       ),
     );
   }
