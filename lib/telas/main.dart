@@ -28,7 +28,7 @@ class GymProApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Color(0xFF121212),
       ),
-      home: LoginScreen(), // Tela inicial agora é o login simplificado
+      home: LoginScreen(), //
     );
   }
 }

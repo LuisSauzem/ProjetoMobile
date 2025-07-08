@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF121212), // Fundo escuro (tema dark)
+      backgroundColor: Color(0xFF121212), // Fundo escuro
       body: Center(
         child: SingleChildScrollView( // Permite rolagem em telas pequenas
           padding: EdgeInsets.all(24),
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   letterSpacing: 1.5)),
 
-              SizedBox(height: 40),
+              SizedBox(height: 45),
 
               // Campo de Email
               Container(
@@ -34,11 +34,13 @@ class LoginScreen extends StatelessWidget {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    labelStyle: TextStyle(color: Colors.white70),
                     prefixIcon: Icon(Icons.email, color: Colors.orangeAccent),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     // Estilização personalizada para estados do campo
+                    //quando seleciona, muda a cor do campo
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade800)),
                     focusedBorder: OutlineInputBorder(
@@ -61,6 +63,7 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true, // Ativa o modo "password"
                   decoration: InputDecoration(
                     labelText: 'Senha',
+                    labelStyle: TextStyle(color: Colors.white70),
                     prefixIcon: Icon(Icons.lock, color: Colors.orangeAccent),
                     // Mesma estilização do campo de email para consistência
                     border: OutlineInputBorder(

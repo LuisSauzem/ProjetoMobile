@@ -20,7 +20,7 @@ class TelaInicial extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0, // Remove sombra da AppBar
         actions: [
-          // Botão de perfil (ainda sem funcionalidade)
+          // Botão de perfil (sem funcionalidade)
           IconButton(
             icon: Icon(Icons.account_circle, color: Colors.orangeAccent),
             onPressed: () {},
@@ -48,7 +48,7 @@ class TelaInicial extends StatelessWidget {
             childAspectRatio: 1.0, // Cards quadrados
             children: [
               // Cards de ação - cada um abre uma tela diferente
-              _buildActionCard( //função criada abaixo para estruturas os cards
+              _buildActionCard( //função criada abaixo para estruturar os cards
                 context,
                 icon: Icons.add_circle_outline,
                 title: 'NOVO EXERCÍCIO',
@@ -87,13 +87,13 @@ class TelaInicial extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard(BuildContext context, //retuna um card
+  Widget _buildActionCard(BuildContext context, //retorna a estrutra do card
       {required IconData icon,
         required String title,
         required String subtitle,
         required Color color,
         required Widget destination}) {
-    return Card(
+    return Card(      //aqui está a estilização do card
       elevation: 8, // Sombra mais pronunciada
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

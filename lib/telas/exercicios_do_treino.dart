@@ -4,8 +4,9 @@ import '../models/exercicio_models.dart';
 import '../database/exercicio_dao.dart';
 import 'listaTreinos.dart';
 
+// Tela que mostra os exercícios de um treino específico
 class ExerciciosDoTreino extends StatefulWidget {
-  final TreinoModel treino;
+  final TreinoModel treino; // Recebe o treino como parâmetro
 
   const ExerciciosDoTreino({Key? key, required this.treino}) : super(key: key);
 
@@ -14,33 +15,37 @@ class ExerciciosDoTreino extends StatefulWidget {
 }
 
 class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
-  final ExercicioDao _exercicioDao = ExercicioDao();
-  List<ExercicioModel> _exercicios = [];
-  bool _isLoading = true;
+  final ExercicioDao _exercicioDao = ExercicioDao(); // DAO para acesso aos exercícios
+  List<ExercicioModel> _exercicios = []; // Lista de exercícios do treino
+  bool _isLoading = true; // Controla o estado de carregamento
 
   @override
   void initState() {
     super.initState();
-    _carregarExercicios();
+    _carregarExercicios(); // Carrega os exercícios quando a tela é iniciada
   }
 
+  // Carrega os exercícios do treino atual
   Future<void> _carregarExercicios() async {
     try {
       final todosExercicios = await _exercicioDao.getAllExercicios();
       setState(() {
+        // Filtra apenas os exercícios que pertencem a este treino
         _exercicios = todosExercicios
             .where((e) => widget.treino.exercicios.contains(e.id))
             .toList();
-        _isLoading = false;
+        _isLoading = false; // Finaliza o carregamento
       });
-    } catch (e) {
+    } catch (e) { //para tratar algum erro ao carregar os treinos
       setState(() => _isLoading = false);
+      // Mostra mensagem de erro se algo falhar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro ao carregar exercícios: ${e.toString()}')),
       );
     }
   }
 
+  // Diálogo para confirmar finalização do treino
   Future<void> _finalizarTreino() async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -65,8 +70,10 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
 
     if (confirm == true) {
       setState(() => _isLoading = true);
-      await Future.delayed(const Duration(milliseconds: 300)); // Simula operação
+      // Simula um tempo de processamento
+      await Future.delayed(const Duration(milliseconds: 300));
       if (mounted) {
+        // Volta para a lista de treinos após finalizar
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => ListaTreinos()),
         );
@@ -94,9 +101,10 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF1A1A1A),
-              Color(0xFF121212),
+              Color(0xFF2A2A2A),  // Cinza mais claro no topo
+              Color(0xFF121212),  // Preto mais escuro na base
             ],
+            stops: [0.3, 0.7],  // Controla a transição do gradiente
           ),
         ),
         child: Column(
@@ -114,10 +122,11 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
                 itemCount: _exercicios.length,
                 itemBuilder: (context, index) {
                   final exercicio = _exercicios[index];
-                  return _buildExerciseCard(exercicio);
+                  return _buildExerciseCard(exercicio); // Cria um card para cada exercício
                 },
               ),
             ),
+            // Botão para finalizar o treino
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
@@ -150,6 +159,7 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
     );
   }
 
+  // Cria um card visual para cada exercício
   Widget _buildExerciseCard(ExercicioModel exercicio) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -162,6 +172,7 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Nome do exercício
             Text(
               exercicio.nome,
               style: const TextStyle(
@@ -171,6 +182,7 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
               ),
             ),
             const SizedBox(height: 8),
+            // Chips com informações do exercício
             Row(
               children: [
                 _buildDetailChip(
@@ -184,6 +196,7 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
                 ),
               ],
             ),
+            // Descrição de como fazer o exercício (se existir)
             if (exercicio.comoFazer.isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
@@ -197,6 +210,7 @@ class _ExerciciosDoTreinoState extends State<ExerciciosDoTreino> {
     );
   }
 
+  // Widget auxiliar para criar chips de detalhes
   Widget _buildDetailChip({required IconData icon, required String label}) {
     return Chip(
       backgroundColor: Colors.orangeAccent.withOpacity(0.2),

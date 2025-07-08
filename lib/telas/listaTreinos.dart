@@ -39,23 +39,26 @@ class _ListaTreinosState extends State<ListaTreinos> {
 
   // Mostra um diálogo de confirmação antes de excluir um treino
   Future<void> _confirmarExclusao(TreinoModel treino) async {
-    final confirm = await showDialog<bool>(
-      context: context,
+    final confirm = await showDialog<bool>(//bool indica tipo de dado que irá receber
+      context: context,                     //na variável confirm
       builder: (context) => AlertDialog(
         backgroundColor: Color(0xFF1E1E1E), // Cor de fundo escura
-        title: Text('Excluir Treino', style: TextStyle(color: Colors.white)),
+        title: Text('Excluir Treino',
+            style: TextStyle(color: Colors.white)),
         content: Text('Deseja realmente excluir ${treino.nome}?',
             style: TextStyle(color: Colors.white70)),
         actions: [
           // Botão de cancelar
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancelar', style: TextStyle(color: Colors.orangeAccent)),
+            child: Text('Cancelar',
+                style: TextStyle(color: Colors.orangeAccent)),
           ),
           // Botão de confirmar exclusão
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text('Excluir', style: TextStyle(color: Colors.redAccent)),
+            child: Text('Excluir',
+                style: TextStyle(color: Colors.redAccent)),
           ),
         ],
       ),
@@ -106,8 +109,9 @@ class _ListaTreinosState extends State<ListaTreinos> {
       ),
 
       // Corpo da tela
-      body: _isLoading
+      body: _isLoading  //é true quando está carregando os dados, após carregar fica false
           ? Center(child: CircularProgressIndicator(color: Colors.orangeAccent))
+            //circularprogressindicator é a bolinha de girar
           : _treinos.isEmpty
           ? Center(child: Text('Nenhum treino cadastrado',
           style: TextStyle(color: Colors.white70)))
@@ -125,7 +129,7 @@ class _ListaTreinosState extends State<ListaTreinos> {
   }
 
   // Cria um card visual para cada treino
-  Widget _buildCardTreino(TreinoModel treino) {
+  Widget _buildCardTreino(TreinoModel treino) { //mesma estrutura dos cards da tela home
     return Card(
       margin: EdgeInsets.only(bottom: 16),
       color: Color(0xFF1E1E1E), // Card escuro
@@ -133,8 +137,8 @@ class _ListaTreinosState extends State<ListaTreinos> {
         borderRadius: BorderRadius.circular(15), // Bordas arredondadas
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(15),
-        onTap: () => Navigator.push(
+        borderRadius: BorderRadius.circular(15),//o inkwell está dentro do card e não
+        onTap: () => Navigator.push(      //precisaria deste border, mas é bom ter para garantir
           context,
           MaterialPageRoute(
             builder: (_) => ExerciciosDoTreino(treino: treino), // Abre tela de exercícios
